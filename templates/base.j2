@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProService Solutions</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='static/main.css'>
+    <link rel="apple-touch-icon" sizes="180x180" href="static/img/apple-touch-icon.png"> 
+    <link rel="icon" type="image/png" sizes="512x512" href="static/img/android-chrome-512x512.png"> 
+    <link rel="icon" type="image/png" sizes="192x192" href="static/img/android-chrome-192x192.png"> 
+    <link rel="icon" type="image/png" sizes="32x32" href="static/img/favicon-32x32.png"> 
+    <link rel="icon" type="image/png" sizes="16x16" href="static/img/favicon-16x16.png"> 
+    <link rel="manifest" href="static/img/site.webmanifest">
+</head>
+
+<body>
+
+    <header>
+        <h1>ProService Solutions <img src="static/img/android-chrome-192x192.png"></h1>
+        <p>Service Request Management System<p>
+    </header>
+
+    <nav class="globalNav">
+        <a href="{{url_for('home')}}">Home</a>
+        <span class="vertLine"></span>
+        <a href="{{url_for('service_categories')}}">Service Categories</a>
+        <span class="vertLine"></span>
+        <a href="{{url_for('services')}}">Services</a>
+        <span class="vertLine"></span>
+        <a href="{{url_for('customers')}}">Customers</a>
+        <span class="vertLine"></span>
+        <a href="{{url_for('requests')}}">Requests</a>
+        <span class="vertLine"></span>
+        <a href="{{url_for('requested_services')}}">Requested Services</a>
+        <span class="vertLine"></span>
+        <a href="{{url_for('payments')}}">Payments</a>
+        <span class="vertLine"></span>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024, Zhen Jie Chong & Zhen Kang Chong</p>
+    </footer>
+
+</body>
+
+</html>

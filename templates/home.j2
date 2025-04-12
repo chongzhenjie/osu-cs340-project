@@ -1,0 +1,25 @@
+{% extends 'base.j2' %}
+
+{% block content %}
+
+    <h2 id="pageTitle">Home</h2>
+
+    <form action="/reload" method="POST">
+        <p>Click the button below to reload the database.</p>
+        <button id="reloadBtn">Reload database</button>
+    </form>
+
+    <h3>About Us</h3>
+
+    <p>
+        ProService Solutions is a well-established information technology (IT) service provider that prides itself on offering 
+        a wide range of 15 distinct Services, categorized into 3 different Service Categories: artificial intelligence, 
+        software development and cybersecurity. With more than 2,000 return Customers and 5,000 Requests handled annually, 
+        the company is planning to scale its business operations. The lack of a streamlined system may lead to lost Requests, 
+        delayed Services and frustrated Customers. As an IT company, it strives to stay at the forefront of technological 
+        advancements and keep up with industry standards. As such, the company is looking to adopt a database-driven website 
+        early to facilitate tracking of Requested Services and process Payments smoothly. Overall, this helps to improve productivity 
+        and increase the satisfaction of Customers.
+    </p>
+
+{% endblock %}

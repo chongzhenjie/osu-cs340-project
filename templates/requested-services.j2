@@ -1,0 +1,186 @@
+{% extends 'base.j2' %}
+
+{% block content %}
+
+    <h2 id="pageTitle">Requested Services</h2>
+
+    <p>
+        This page records the Services involved in the corresponding Requests. The main details include the Quotation Price 
+        in US dollars. Prices of the same Service may differ due to factors such as the level of customization required.
+    </p>
+
+    <table id="tableServiceFilter">
+        <thead>
+        <tr>
+            <th>Requested Service ID</th>
+            <th>Request</th>
+            <th>Service</th>
+            <th>Quotation Price (US$)</th>
+            <th>Delete</th>
+        </tr>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                {% for key in item.keys() %}
+                    <td>{{item[key]}}</td>
+                {% endfor %}
+                <td><form action="/delete-requested-services/{{item.request_service_id}}" method="post"><button>Delete</button></form></td>
+                <!-- <button onclick="location.href='delete-requested-services/{{item.request_service_id}}'">Delete</button> -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>
+        <strong>Note:</strong> Creating, updating or deleting a record here will update the Payment Amount for the associated record on the 
+        Payments page (if any) without causing an anomaly. This follows database design that the Payment Amount is the sum of all Quotation Prices for 
+        each Request.
+    </p>
+
+    <h3>Filter by Services</h3>
+
+    <p>
+        From the above table, this filter allows you to narrow down the displayed Requests and associated Quotation Prices based on the Service specified.
+    </p>
+
+    <p>
+        <label for="serviceFilter">Filter by Service:</label>
+        <select 
+            name="serviceFilter"
+            id="serviceFilter"
+        >
+        <option value="" selected>Show All</option>
+        {% for item in services_data %}
+            <option value="{{item.name}}">{{item.name}}</option>
+        {% endfor %}
+        </select>
+    </p>
+
+    <p id="formDesc">
+        Required fields for creating or updating a record are marked with an asterisk <span class="required"></span>.
+    </p>
+
+    <form action="/requested-services" method="POST">
+
+        <fieldset>
+
+            <legend>Create Requested Service</legend>
+
+            <ol>
+                <li>
+                    The same Service cannot be requested multiple times in the same Request. Instead, this is reflected in 
+                    the Quotation Price. For example, if two web apps are developed, the Quotation Price will be higher than 
+                    if only one web app is developed, assuming all else equal.
+                </li>
+                <li>Services can only be requested after an initial Request has been submitted.</li>
+            </ol>
+            
+            <p class="alignedInput">
+                <label for="idFromRequestInfo" class="required">Select a Request:</label>
+                <select 
+                    name="idFromRequestInfo"
+                    id="idFromRequestInfo"
+                    required
+                >
+                <option value="" selected></option>
+                {% for item in requests_data %}
+                    <option value="{{item.request_id}}">{{item.request_info}}</option>
+                {% endfor %}
+                </select>
+            </p>
+
+            <p class="alignedInput">
+                <label for="idFromService" class="required">Service:</label>
+                <select 
+                    name="idFromService"
+                    id="idFromService"
+                    required
+                >
+                <option value="" selected></option>
+                {% for item in services_data %}
+                    <option value="{{item.service_id}}">{{item.name}}</option>
+                {% endfor %}
+                </select>
+            </p>
+
+            <p class="alignedInput">
+                <label for="quotationPrice" class="required">Quotation Price:</label>
+                <input
+                    type="number"
+                    name="quotationPrice"
+                    id="quotationPrice"
+                    step="0.01"
+                    min="0.00"
+                    max="99999.99"
+                    required
+                />
+            </p>
+
+            <p>
+                <button type="submit">Create</button>
+                <button type="reset">Cancel</button>
+            </p>
+
+        </fieldset>
+
+    </form>
+
+    <form action="/update-requested-services" method="POST">
+
+        <fieldset>
+
+            <legend>Update Requested Service</legend>
+
+            <p class="alignedInput">
+                <label for="idFromRequestService" class="required">Select a Requested Service:</label>
+                <select 
+                    name="idFromRequestService"
+                    id="idFromRequestService"
+                    required
+                >
+                <option value="" selected></option>
+                {% for item in data %}
+                    <option value="{{item.request_service_id}}">{{item.request_info}}, {{item.name}}</option>
+                {% endfor %}
+                </select>
+            </p>
+
+            <p class="alignedInput">
+                <label for="idFromService" class="required">Service:</label>
+                <select 
+                    name="idFromService"
+                    id="idFromService"
+                    required
+                >
+                <option value="" selected></option>
+                {% for item in services_data %}
+                    <option value="{{item.service_id}}">{{item.name}}</option>
+                {% endfor %}
+                </select>
+            </p>
+
+            <p class="alignedInput">
+                <label for="quotationPrice" class="required">Quotation Price:</label>
+                <input
+                    type="number"
+                    name="quotationPrice"
+                    id="quotationPrice"
+                    step="0.01"
+                    min="0.00"
+                    max="99999.99"
+                    required
+                />
+            </p>
+
+            <p>
+                <button type="submit">Update</button>
+                <button type="reset">Cancel</button>
+            </p>
+
+        </fieldset>
+
+    </form>
+
+    <script src='static/requested-services-filter.js'></script>
+
+{% endblock %}

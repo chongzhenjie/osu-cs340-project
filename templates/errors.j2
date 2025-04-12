@@ -1,0 +1,15 @@
+{% extends 'base.j2' %}
+
+{% block content %}
+
+    <h2>Error {{err_code}}</h2>
+
+    <p>
+        An error has occurred on the {{page_name}} page. Please check your input values again.
+        
+        <blockquote>
+            {{err_msg}}
+        </blockquote>
+    </p>
+
+{% endblock %}

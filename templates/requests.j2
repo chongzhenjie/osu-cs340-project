@@ -1,0 +1,153 @@
+{% extends 'base.j2' %}
+
+{% block content %}
+
+    <h2 id="pageTitle">Requests</h2>
+
+    <p>
+        This page records the details of Requests made by Customers. The main details include the various dates 
+        for better resource management.
+    </p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Request ID</th>
+            <th>Request Date & Time</th>
+            <th>Completion Date & Time</th>
+            <th>Customer</th>
+            <th>Payment Date & Time</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                {% for key in item.keys() %}
+                    {% if key != 'request_service_id' %}
+                        <td>{{item[key]}}</td>
+                    {% endif %}
+                {% endfor %}
+                {% if item.request_service_id %}
+                    <td><button onclick="location.href='/delete-requests/{{item.request_id}}'" disabled>Delete</button></td>
+                {% else %}
+                    <td><button onclick="location.href='/delete-requests/{{item.request_id}}'">Delete</button></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>
+        <strong>Note:</strong> Records cannot be deleted if there are associated records on the Requested Services page.
+    </p>
+
+    <p id="formDesc">
+        Required fields for creating or updating a record are marked with an asterisk <span class="required"></span>.
+    </p>
+
+    <form action="/requests" method="POST">
+
+        <fieldset>
+
+            <legend>Create Request</legend>
+
+            <ol>
+                <li>By default, the Payment Date & Time is reflected as None; updates must be made on the Payments page to process the Payment.</li>
+            </ol>
+            
+            <p class="alignedInput">
+                <label for="requestDate" class="required">Request Date & Time (assumed unique):</label>
+                <input 
+                    type="datetime-local"
+                    name="requestDate"
+                    id="requestDate"
+                    step="1"
+                    required
+                />
+            </p>
+
+            <p class="alignedInput">
+                <label for="completionDate">Completion Date & Time:</label>
+                <input 
+                    type="datetime-local"
+                    name="completionDate"
+                    id="completionDate"
+                    step="1"
+                />
+            </p>
+
+            <p class="alignedInput">
+                <label for="idFromCustomer">Customer:</label>
+                <select 
+                    name="idFromCustomer"
+                    id="idFromCustomer"
+                >
+                <option value="" selected></option>
+                {% for item in customers_data %}
+                    <option value="{{item.customer_id}}">{{item.full_name}}</option>
+                {% endfor %}
+                </select>
+            </p>
+
+            <p>
+                <button type="submit">Create</button>
+                <button type="reset">Cancel</button>
+            </p>
+
+        </fieldset>
+
+    </form>
+
+    <form action="/update-requests" method="POST">
+
+        <fieldset action="update-requests" method="POST">
+            <legend>Update Request</legend>
+
+            <p class="alignedInput">
+                <label for="idFromRequest" class="required">Select a Request:</label>
+                <select 
+                    name="idFromRequest"
+                    id="idFromRequest"
+                    required
+                >
+                <option value="" selected></option>
+                {% for item in data %}
+                    <option value="{{item.request_id}}">{{item.request_date}}, {{item.full_name}}</option>
+                {% endfor %}
+                </select>
+            </p>
+
+            <p class="alignedInput">
+                <label for="completionDate">Completion Date & Time:</label>
+                <input 
+                    type="datetime-local"
+                    name="completionDate"
+                    id="completionDate"
+                    step="1"
+                />
+            </p>
+
+            <p class="alignedInput">
+                <label for="idFromCustomer">Customer:</label>
+                <select 
+                    name="idFromCustomer"
+                    id="idFromCustomer"
+                >
+                <option value="" selected></option>
+                {% for item in customers_data %}
+                    <option value="{{item.customer_id}}">{{item.full_name}}</option>
+                {% endfor %}
+                </select>
+            </p>
+
+            <p>
+                <button type="submit">Update</button>
+                <button type="reset">Cancel</button>
+            </p>
+
+        </fieldset>
+
+    </form>
+
+{% endblock %}
